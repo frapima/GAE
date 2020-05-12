@@ -1,4 +1,4 @@
-match(n) detach delete(n)
+match(n) detach delete(n);
 
 CREATE (Bertoldo:Cliente {nombre:'Bertoldo', edad:33})
 CREATE (Herminia:Cliente {nombre:'Herminia', edad:34})
@@ -46,6 +46,6 @@ CREATE (Clotilde)-[:BAD {id:1}]->(TV),
        (Aniceto)-[:GOOD {id:30}]->(TV),
        (Aniceto)-[:APOYA {id:31}]->(Genara),
        (Aniceto)-[:BAD {id:32}]->(Tostadora),
-       (Aniceto)-[:GOOD {id:33}]->(Maleta)
+       (Aniceto)-[:GOOD {id:33}]->(Maleta);
 
 
