@@ -1,0 +1,115 @@
+EJERCICIO 1
+
+$ docker run –-publish=7474:7474 –-publish=7687:7687 –-volume=$HOME/neo4j/data:/data neo4j
+
+CALL db.schema.visualization()
+
+EJERCICIO 2
+
+//CONSULTA 1
+MATCH (client:Cliente) -[:BAD]-> (:Producto {id:2})
+RETURN client
+
+MATCH (client:Cliente) -[:BAD]-> (product:Producto)
+WHERE product.id = 2
+RETURN client
+
+//CONSULTA 2
+MATCH circuito=(clientSource:Cliente) -[a:APOYA*..]-> (clientSource)
+RETURN circuito
+
+//CONSULTA 3
+MERGE (demetrio:Cliente {nombre: 'Demetrio'})
+MERGE (genara:Cliente {nombre: 'Genara'})
+CREATE (demetrio) -[a:APOYA]-> (genara)
+RETURN demetrio, a, genara
+
+
+
+EJERCICIO 3
+
+//POBLADO
+match(n) detach delete(n);
+
+CREATE (joseLuis:Trabajador {nombre:'Jose Luis García', edad:34})
+CREATE (juan:Trabajador:Técnico {nombre:'Juan García', edad:33})
+CREATE (adolfo:Trabajador:Técnico {nombre:'Adolfo Safalia', edad:34})
+CREATE (fernando:Trabajador:Administrativo {nombre:'Fernando Calisto', edad:49})
+CREATE (gabriel:Trabajador:Administrativo {nombre:'Gabriel Hernández', edad:19})
+CREATE (cesar:Trabajador:Administraivo {nombre:'César Genero', edad:43})
+CREATE (oscar:Trabajador:Administrativo {nombre:'Óscar Ortega', edad:46})
+CREATE (amancio:Trabajador:Tecnico {nombre:'Amancio Retalde', edad:33})
+CREATE (gustavo:Trabajador:Tecnico {nombre:'Gustavo Menier', edad:19})
+CREATE (horacio:Trabajador:Ingeniero {nombre:'Horacio Pérez', edad:24})
+CREATE (segismundo:Trabajador:Ingeniero {nombre:'Segismundo Martínez', edad:18})
+CREATE (antonio:Trabajador:Director {nombre:'Antonio García', edad:51})
+
+CREATE (impresoraSalaUno:Dispositivo:Impresora {id:1, descr:'Impresora de la Sala 1', tonerPagsRestantes:5000})
+CREATE (impresoraSalaDos:Dispositivo:Impresora {id:2, descr:'Impresora de la Sala 2', tonerPagsRestantes:4000})
+CREATE (impresoraPasilloUno:Dispositivo:Impresora {id:3, descr:'Impresora del Pasillo 1', tonerPagsRestantes:785})
+CREATE (impresoraPasilloDos:Dispositivo:Impresora {id:4, descr:'Impresora del Pasillo 2', tonerPagsRestantes:87})
+CREATE (impresoraDespacho:Dispositivo:Impresora {id:5, descr:'Impresora del despacho', tonerPagsRestantes:689})
+CREATE (lectorHuella:Dispositivo:Lector {id:6, descr:'Lector huella fichaje'})
+
+CREATE (cesar)-[:IMPRIME {id:1, fecha: datetime("2020-05-12T11:30:00.000+0100"), numeroDePaginas: 50}]->(impresoraSalaUno),
+       (oscar)-[:IMPRIME {id:2, fecha: datetime("2020-05-11T10:14:00.000+0100"), numeroDePaginas: 1}]->(impresoraSalaDos),
+       (amancio)-[:IMPRIME {id:3, fecha: datetime("2020-05-10T08:54:00.000+0100"), numeroDePaginas: 2}]->(impresoraSalaUno),
+       (fernando)-[:IMPRIME {id:4, fecha: datetime("2020-05-08T12:24:00.000+0100"), numeroDePaginas: 35}]->(impresoraPasilloDos),
+       (joseLuis)-[:IMPRIME {id:5, fecha: datetime("2020-05-07T15:56:00.000+0100"), numeroDePaginas: 15}]->(impresoraPasilloUno),
+       (juan)-[:IMPRIME {id:6, fecha: datetime("2020-05-05T17:41:00.000+0100"), numeroDePaginas: 24}]->(impresoraSalaUno),
+       (juan)-[:IMPRIME {id:7, fecha: datetime("2020-05-05T19:26:00.000+0100"), numeroDePaginas: 5}]->(impresoraSalaDos),
+       (segismundo)-[:IMPRIME {id:8, fecha: datetime("2020-05-11T20:14:00.000+0100"), numeroDePaginas: 2}]->(impresoraSalaDos),
+       (antonio)-[:IMPRIME {id:9, fecha: datetime("2020-05-12T13:16:00.000+0100"), numeroDePaginas: 352}]->(impresoraDespacho),
+       (fernando)-[:IMPRIME {id:10, fecha: datetime("2020-04-13T09:18:00.000+0100"), numeroDePaginas: 24}]->(impresoraPasilloUno),
+       (antonio)-[:IMPRIME {id:11, fecha: datetime("2020-02-10T10:26:00.000+0100"), numeroDePaginas: 12}]->(impresoraDespacho),
+       (joseLuis)-[:FICHA {id:12, fecha: datetime("2020-01-13T08:45:00.000+0100")}]->(lectorHuella),
+       (joseLuis)-[:FICHA {id:13, fecha: datetime("2020-05-11T17:49:00.000+0100")}]->(lectorHuella),
+       (juan)-[:FICHA {id:14, fecha: datetime("2020-05-13T07:50:00.000+0100")}]->(lectorHuella),
+       (juan)-[:FICHA {id:15, fecha: datetime("2020-05-13T18:46:00.000+0100")}]->(lectorHuella),
+       (adolfo)-[:FICHA {id:16, fecha: datetime("2020-05-13T08:01:00.000+0100")}]->(lectorHuella),
+       (adolfo)-[:FICHA {id:17, fecha: datetime("2020-05-13T17:01:00.000+0100")}]->(lectorHuella),
+       (fernando)-[:FICHA {id:18, fecha: datetime("2020-05-13T08:25:00.000+0100")}]->(lectorHuella),
+       (fernando)-[:FICHA {id:19, fecha: datetime("2020-05-13T18:24:00.000+0100")}]->(lectorHuella),
+       (gabriel)-[:FICHA {id:20, fecha: datetime("2020-05-13T08:03:00.000+0100")}]->(lectorHuella),
+       (gabriel)-[:FICHA {id:21, fecha: datetime("2020-05-13T17:47:00.000+0100")}]->(lectorHuella),
+       (cesar)-[:FICHA {id:22, fecha: datetime("2020-05-13T08:41:00.000+0100")}]->(lectorHuella),
+       (cesar)-[:FICHA {id:23, fecha: datetime("2020-05-13T14:52:00.000+0100")}]->(lectorHuella),
+       (oscar)-[:FICHA {id:24, fecha: datetime("2020-05-13T08:14:00.000+0100")}]->(lectorHuella),
+       (oscar)-[:FICHA {id:25, fecha: datetime("2020-05-13T17:30:00.000+0100")}]->(lectorHuella),
+       (amancio)-[:FICHA {id:26, fecha: datetime("2020-05-13T08:24:00.000+0100")}]->(lectorHuella),
+       (amancio)-[:FICHA {id:27, fecha: datetime("2020-05-13T18:34:00.000+0100")}]->(lectorHuella),
+       (gustavo)-[:FICHA {id:28, fecha: datetime("2020-05-13T08:30:00.000+0100")}]->(lectorHuella),
+       (gustavo)-[:FICHA {id:29, fecha: datetime("2020-05-13T17:10:00.000+0100")}]->(lectorHuella),
+       (horacio)-[:FICHA {id:30, fecha: datetime("2020-05-13T08:01:00.000+0100")}]->(lectorHuella),
+       (horacio)-[:FICHA {id:31, fecha: datetime("2020-05-13T18:24:00.000+0100")}]->(lectorHuella),
+       (segismundo)-[:FICHA {id:32, fecha: datetime("2020-05-13T09:10:00.000+0100")}]->(lectorHuella),
+       (segismundo)-[:FICHA {id:33, fecha: datetime("2020-05-13T17:02:00.000+0100")}]->(lectorHuella),
+       (antonio)-[:FICHA {id:31, fecha: datetime("2020-05-13T08:30:00.000+0100")}]->(lectorHuella),
+       (antonio)-[:FICHA {id:33, fecha: datetime("2020-05-13T20:30:00.000+0100")}]->(lectorHuella)
+
+//CONSULTA 1
+MATCH (a:Administrativo) RETURN a
+
+//CONSULTA 2
+MATCH (a:Trabajador)
+WHERE a.nombre STARTS WITH 'Fernando'
+RETURN a
+
+//CONSULTA 3
+MATCH (:Trabajador)-[impresion:IMPRIME]->(:Impresora)
+RETURN sum(impresion.numeroDePaginas)
+
+//CONSULTA 4
+MATCH (t:Trabajador)-[impresion:IMPRIME]->(impresora:Impresora)
+WHERE impresion.numeroDePaginas > 100
+RETURN t.nombre, impresora.descr, impresion.numeroDePaginas, impresion.fecha
+
+//CONSULTA 5
+MATCH (:Trabajador {nombre: 'Gustavo Menier'})-[fichaje:FICHA]->(:Lector)
+WHERE fichaje.fecha.year=2020 and fichaje.fecha.month=05 and fichaje.fecha.day=13
+RETURN min(fichaje.fecha)
+
+//CONSULTA 6
+MATCH (impresora:Impresora)
+WHERE impresora.tonerPagsRestantes < 100
+RETURN impresora.descr, impresora.tonerPagsRestantes
